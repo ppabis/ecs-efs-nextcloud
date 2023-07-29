@@ -1,8 +1,8 @@
 resource "aws_vpc" "My-VPC" {
-  cidr_block = "10.100.0.0/16"
+  cidr_block                       = "10.100.0.0/16"
   assign_generated_ipv6_cidr_block = true
-  enable_dns_hostnames = true
-  enable_dns_support = true
+  enable_dns_hostnames             = true
+  enable_dns_support               = true
   tags = {
     Name = "My-VPC"
   }
