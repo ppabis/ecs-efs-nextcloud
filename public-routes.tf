@@ -13,11 +13,6 @@ resource "aws_internet_gateway" "igw" {
   tags   = { Name = "igw" }
 }
 
-resource "aws_internet_gateway_attachment" "igw" {
-  vpc_id              = aws_vpc.My-VPC.id
-  internet_gateway_id = aws_internet_gateway.igw.id
-}
-
 resource "aws_subnet" "public" {
   count                   = length(local.SUBNET_ZONES)
   vpc_id                  = aws_vpc.My-VPC.id
