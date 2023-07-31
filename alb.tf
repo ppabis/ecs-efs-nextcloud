@@ -43,12 +43,8 @@ resource "aws_alb_listener" "HTTPS" {
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = data.aws_acm_certificate.my-domain.arn
   default_action {
-    type             = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Hello world!"
-      status_code  = "200"
-    }
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.ECS-TG.arn
   }
 }
 
