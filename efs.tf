@@ -21,6 +21,26 @@ resource "aws_security_group" "mount-point-sg" {
   vpc_id = aws_vpc.My-VPC.id
   name   = "mount-point-sg"
 
+  dynamic "ingress" {
+    for_each = local.EFS_SG_PORTS
+    content {
+      from_port       = ingress.value
+      to_port         = ingress.value
+      protocol        = "tcp"
+      security_groups = [aws_security_group.ECS-SG.id]
+    }
+  }
+
+  dynamic "ingress" {
+    for_each = local.EFS_SG_PORTS
+    content {
+      from_port       = ingress.value
+      to_port         = ingress.value
+      protocol        = "udp"
+      security_groups = [aws_security_group.ECS-SG.id]
+    }
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
