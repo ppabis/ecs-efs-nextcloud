@@ -186,6 +186,6 @@ resource "aws_ecs_service" "Nextcloud" {
 resource "aws_ecs_task_set" "Nextcloud" {
   cluster         = aws_ecs_cluster.Nextcloud.id
   launch_type     = "FARGATE"
-  task_definition = "aws_ecs_task_definition.Nextcloud-Task.arn"
+  task_definition = aws_ecs_task_definition.Nextcloud-Task.arn
   service         = aws_ecs_service.Nextcloud.id
 }
