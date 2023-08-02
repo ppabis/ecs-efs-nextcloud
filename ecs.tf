@@ -82,41 +82,6 @@ resource "aws_alb_target_group" "ECS-TG" {
   }
 }
 
-resource "aws_ecs_task_definition" "Nginx-Task" {
-  cpu                      = 512
-  memory                   = 1024
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = aws_iam_role.Task-Role.arn
-  task_role_arn            = aws_iam_role.Task-Role.arn
-  family                   = "Nginx-Task"
-  volume {
-    name = "nginx-storage"
-    efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.MyEFS.id
-      transit_encryption      = "ENABLED"
-      transit_encryption_port = 2999
-      authorization_config {
-        access_point_id = aws_efs_access_point.Nextcloud-Access-Point.id
-        iam             = "ENABLED"
-      }
-    }
-  }
-
-  container_definitions = jsonencode([
-    {
-      name      = "Nginx"
-      image     = "nginx:latest"
-      essential = true
-      portMappings = [{
-        containerPort = 80
-        hostPort      = 80
-        protocol      = "tcp"
-      }]
-      environment = local.MARIADB_ENV_VARIABLES_AWS
-    }])
-}
-
 resource "aws_ecs_task_definition" "Nextcloud-Task" {
   cpu                      = 1024
   memory                   = 2048
